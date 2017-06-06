@@ -10,8 +10,8 @@ import com.ll.model.ScheduleJob;
 import com.ll.vo.ScheduleJobVo;
 
 /**
- * author : fengjing
- * createTime : 2016-08-04
+ * author : benjamin
+ * createTime : 2017.06.06
  * description : 异步任务工厂
  * version : 1.0
  */

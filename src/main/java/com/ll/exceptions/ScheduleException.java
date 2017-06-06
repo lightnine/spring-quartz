@@ -3,8 +3,8 @@ package com.ll.exceptions;
 import com.dexcoder.commons.exceptions.DexcoderException;
 
 /**
- * author : fengjing
- * createTime : 2016-08-04
+ * author : benjamin
+ * createTime : 2017.06.06
  * description : 定时任务自定义异常
  * version : 1.0
  */

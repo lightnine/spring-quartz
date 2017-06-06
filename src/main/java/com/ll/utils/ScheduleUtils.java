@@ -11,8 +11,8 @@ import com.ll.quartz.AsyncJobFactory;
 import com.ll.quartz.SyncJobFactory;
 
 /**
- * author : fengjing
- * createTime : 2016-08-04
+ * author : benjamin
+ * createTime : 2017.06.06
  * description : 定时任务操作辅助类
  * version : 1.0
  */

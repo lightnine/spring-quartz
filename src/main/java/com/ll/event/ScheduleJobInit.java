@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import com.ll.service.ScheduleJobService;
 
 /**
- * author : fengjing
- * createTime : 2016-08-04
+ * author : benjamin
+ * createTime : 2017.06.06
  * description : 定时任务初始化
  * version : 1.0
  */
