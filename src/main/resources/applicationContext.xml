@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="com.ll.*"/>
+
+    <!-- 启用@Aspect支持 -->
+    <aop:aspectj-autoproxy/>
+	<!-- 加载数据库配置 -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName">
+            <value>${jdbc.driver}</value>
+        </property>
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="username">
+            <value>${jdbc.username}</value>
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+        <property name="initialSize">
+            <value>${jdbc.initialSize}</value>
+        </property>
+        <property name="maxActive">
+            <value>${jdbc.maxActive}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${jdbc.minIdle}</value>
+        </property>
+        <property name="maxWait">
+            <value>${jdbc.maxWait}</value>
+        </property>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="fetchSize">
+            <value>${jdbc.jdbcTemplate.fetchSize}</value>
+        </property>
+    </bean>
+	<!-- 访问数据库方式 -->
+    <bean id="jdbcDao" class="com.dexcoder.dal.spring.JdbcDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+    
+	<!-- 配置quartz调度器 -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+        <property name="overwriteExistingJobs" value="true" />
+        <!--必须的，QuartzScheduler 延时启动，应用启动完后 QuartzScheduler 再启动 -->
+        <property name="startupDelay" value="3" />
+        <!-- 设置自动启动 -->
+        <property name="autoStartup" value="true" />
+        <!-- 把spring上下 文以key/value的方式存放在了quartz的上下文中了 -->
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+        <!-- scheduler的名称 -->
+        <property name="schedulerName" value="ClusterScheduler" />
+        <property name="configLocation" value="classpath:quartz.properties" />
+<!--         <property name="quartzProperties"> -->
+<!--             <props> -->
+<!--                 <prop key="org.quartz.scheduler.instanceName">ClusterScheduler</prop> -->
+<!--                 <prop key="org.quartz.scheduler.instanceId">AUTO</prop> -->
+<!--                 线程池配置 -->
+<!--                 <prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop> -->
+<!--                 <prop key="org.quartz.threadPool.threadCount">20</prop> -->
+<!--                 <prop key="org.quartz.threadPool.threadPriority">5</prop> -->
+<!--                 JobStore 配置 -->
+<!--                 <prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop> -->
+
+<!--                 集群配置 -->
+<!--                 <prop key="org.quartz.jobStore.isClustered">true</prop> -->
+<!--                 <prop key="org.quartz.jobStore.clusterCheckinInterval">15000</prop> -->
+<!--                 <prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">1</prop> -->
+
+<!--                 <prop key="org.quartz.jobStore.misfireThreshold">120000</prop> -->
+
+<!--                 <prop key="org.quartz.jobStore.tablePrefix">QRTZ_</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+    </bean>
+</beans>
