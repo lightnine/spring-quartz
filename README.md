@@ -11,3 +11,5 @@ spring与quartz结合使用，集群配置
 3. 将项目打成war包,分布部署在不同的机器上的tomcat中,运行tomcat,访问网页网址建立调度作业,这里建立的调度作业只是简单的输出作业信息,注意修改数据库连接配置
 4. 在tomcat下logs文件夹下的catalina.out文件中可以看到输出的结果
 
+> 可以查看我的博客来详细了解[CSDN-benjamin1](http://blog.csdn.net/benjaminlee1/article/details/72993879)
+
